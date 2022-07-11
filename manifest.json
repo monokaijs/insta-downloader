@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "version": "1",
+  "name": "InstaDownloader",
+  "description": "A bunch of tools for your better experience.",
+  "action": {
+    "default_title": "InstaDownloader"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*",
+        "<all_urls>"
+      ],
+      "js": [
+        "content-script.js"
+      ],
+      "css": [
+        "injected-style.css"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "injected-script.js",
+        "*.css",
+        "*.png"
+      ],
+      "matches": [
+        "*://*/*"
+      ]
+    }
+  ],
+  "host_permissions": [
+    "*://*.instagram.com/*"
+  ],
+  "permissions": [
+    "tabs",
+    "alarms",
+    "notifications",
+    "downloads",
+    "cookies",
+    "storage",
+    "notifications",
+    "webRequest",
+    "declarativeNetRequestWithHostAccess"
+  ]
+}
