@@ -2,22 +2,14 @@ console.log("Injected Script loaded...");
 if (typeof require === "undefined") var require = () => null;
 if (require && require('PolarisPost')) {
   const componentPrototypes = require('PolarisPost').prototype;
-  console.log(componentPrototypes.componentDidMount);
   const oldComponentDidMount = componentPrototypes.componentDidMount;
   const oldRender = componentPrototypes.render;
   require('PolarisPost').prototype.componentDidMount = function () {
     oldComponentDidMount.bind(this)();
-    console.log(this.props);
   }
   require('PolarisPost').prototype.render = function (props) {
-    console.log("on render");
     return oldRender.bind(this)(props);
   }
-  // require('PolarisPost').prototype.render = () => 'ádfksald';
-  // const oldWillUpdates = componentPrototypes.componentDidMount;
-  // componentPrototypes.componentDidMount = (props) => {
-  //   return oldWillUpdates(props);
-  // }
 
   // Modifying Video
   const videoComponentPrototypes = require('PolarisDeclarativeVideo').prototype;
@@ -85,4 +77,34 @@ if (require && require('PolarisPost')) {
   }
 
 
+  const checkIntervalStoryMedia = setInterval(() => {
+    try {
+      if (!require('PolarisStoryMedia')) return;
+      clearInterval(checkIntervalStoryMedia);
+      const storyViewerPrototype = require('PolarisStoryMedia').StoryMedia.prototype;
+      const storyViewerRender = storyViewerPrototype.render;
+      require('PolarisStoryMedia').StoryMedia.prototype.render = function (props) {
+        const _props = this.props;
+        const react = require('react');
+        return react.jsx("div", {
+          className: "story-outer-viewer",
+          children: [
+            storyViewerRender.bind(this)(props),
+            react.jsx("div", {
+              className: "download-button",
+              onClick: () => {
+                const anchor = document.createElement("a");
+                anchor.href = _props.post.videoUrl || _props.post.src;
+                anchor.target = "_blank";
+                anchor.click();
+              },
+              children: "Download Story"
+            })
+          ]
+        });
+      }
+    } catch (e) {
+      // something bad happened;
+    }
+  }, 100);
 }

@@ -6,3 +6,29 @@
     height: 32px;
     z-index: 9999;
 }
+
+.story-outer-viewer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.story-outer-viewer .download-button {
+    position: absolute;
+    bottom: 64px;
+    left: 32px;
+    right: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    background-color: #00000033;
+    color: #FFF;
+    z-index: 9999;
+    border-radius: 8px;
+    transition: all 100ms;
+    cursor: pointer;
+}
+.story-outer-viewer .download-button:hover {
+    background-color: #FFF;
+    color: #000;
+}
